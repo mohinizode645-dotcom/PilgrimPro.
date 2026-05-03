@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5C2A2A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilgrim Pro – Alandi Pilgrimage Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron:       #D97B3A;
+    --saffron-light: #E8975A;
+    --saffron-dark:  #B5622A;
+    --gold:          #C8973A;
+    --gold-light:    #DDB96A;
+    --maroon:        #8C4A4A;
+    --maroon-deep:   #5C2A2A;
+    --cream:         #FDF6E3;
+    --cream-dark:    #F0E0C0;
+    --bg-page:       #F5EFE6;
+    --bg-hero:       #EDE0D0;
+    --bg-card:       #FAF4EC;
+    --bg-card2:      #F2E8D8;
+    --bg-nav:        #EDE0CF;
+    --bg-status:     #F7EFE2;
+    --teal:          #3AADAD;
+    --teal-light:    #6DCFCF;
+    --white:         #FFFFFF;
+    --text-light:    #3A2010;
+    --text-muted:    #8A6A4A;
+    --text-dark:     #2A1000;
+    --green:         #3AAA6A;
+    --red:           #CC4433;
+    --blue:          #3A88CC;
+    --olive:         #7A8C4A;
+    --shadow:        0 8px 32px rgba(100,60,20,0.12);
+    --shadow-sm:     0 2px 12px rgba(100,60,20,0.08);
+    --radius:        16px;
+    --radius-sm:     10px;
+    --border:        rgba(200,151,58,0.25);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+    background: var(--bg-page);
+    color: var(--text-light);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  #lang-bar {
+    background: var(--maroon-deep);
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    border-bottom: 1px solid rgba(200,151,58,0.3);
+  }
+  .lang-btn {
+    background: transparent;
+    border: 1px solid rgba(200,151,58,0.6);
+    color: #DDB96A;
+    padding: 3px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+    transition: all 0.2s;
+  }
+  .lang-btn.active, .lang-btn:hover {
+    background: var(--gold);
+    color: #fff;
+    font-weight: 600;
+  }
+  #hero {
+    background: linear-gradient(160deg, var(--maroon-deep) 0%, #7A3A20 50%, var(--maroon-deep) 100%);
+    padding: 28px 20px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid var(--olive);
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F4C430' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-icon {
+    width: 90px; height: 90px;
+    border-radius: 22px;
+    border: 3px solid var(--gold);
+    margin: 0 auto 12px;
+    background: var(--saffron);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 0 30px rgba(200,151,58,0.35);
+    position: relative; z-index: 1;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    position: relative; z-index: 1;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .hero-tagline {
+    font-size: 13px;
+    color: #DDB96A;
+    margin-top: 4px;
+    position: relative; z-index: 1;
+    font-style: italic;
+  }
+  #nav {
+    background: var(--bg-nav);
+    display: flex;
+    border-bottom: 2px solid var(--border);
+    padding: 0;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  #nav::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 14px 4px 12px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 72px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    gap: 5px;
+  }
+  .nav-tab .ti { font-size: 24px; }
+  .nav-tab:hover { color: var(--saffron); background: rgba(200,151,58,0.05); }
+  .nav-tab.active { color: var(--saffron-dark); border-bottom-color: var(--saffron); font-weight: 600; background: rgba(200,151,58,0.08); }
+  .section { display: none; padding: 20px; min-height: 60vh; }
+  .section.active { display: block; }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--saffron-dark);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(200,151,58,0.5); }
+  .card-title {
+    font-size: 15px; font-weight: 600; color: var(--saffron-dark); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  #map-container {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    min-height: 380px;
+    box-shadow: var(--shadow-sm);
+  }
+  .map-controls {
+    display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .map-btn {
+    background: rgba(200,151,58,0.1);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: all 0.2s;
+  }
+  .map-btn.active, .map-btn:hover {
+    background: var(--saffron);
+    color: white;
+    border-color: var(--saffron);
+    font-weight: 600;
+  }
+  .crowd-meter {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .meter-bar {
+    height: 20px; border-radius: 10px;
+    background: linear-gradient(90deg, #3AAA6A, #C8872A 50%, #CC4433);
+    position: relative; margin: 12px 0 6px;
+  }
+  .meter-needle {
+    position: absolute; top: -4px;
+    width: 4px; height: 28px;
+    background: var(--text-dark); border-radius: 2px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    transition: left 1s ease;
+  }
+  .route-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  .route-card:hover { border-color: var(--saffron); transform: translateY(-1px); }
+  .route-card.selected { border-color: var(--gold); background: rgba(200,150,58,0.07); }
+  .route-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .route-name { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+  .route-tag {
+    font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 500;
+  }
+  .route-tag.easy     { background: rgba(58,170,106,0.15); color: #2A8A50; border: 1px solid rgba(58,170,106,0.35); }
+  .route-tag.moderate { background: rgba(200,135,42,0.15); color: #9A6A1A; border: 1px solid rgba(200,135,42,0.35); }
+  .route-tag.hard     { background: rgba(204,68,51,0.15);  color: #A83020; border: 1px solid rgba(204,68,51,0.35); }
+  .route-stats { display: flex; gap: 16px; }
+  .route-stat { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+  .route-steps { margin-top: 12px; display: none; }
+  .route-steps.open { display: block; }
+  .route-step {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--saffron); color: white;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .timing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .timing-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .timing-time { font-size: 20px; font-weight: 700; color: var(--saffron-dark); margin-bottom: 4px; }
+  .timing-label { font-size: 12px; color: var(--text-muted); }
+  .timing-rating { display: flex; justify-content: center; gap: 3px; margin-top: 8px; }
+  .star-filled { color: var(--gold); font-size: 14px; }
+  .star-empty  { color: rgba(200,151,58,0.3); font-size: 14px; }
+  .timing-chart {
+    margin-top: 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .timing-bar-row {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+  }
+  .timing-hour { font-size: 12px; color: var(--text-muted); width: 42px; flex-shrink: 0; }
+  .timing-bar-wrap { flex: 1; background: rgba(0,0,0,0.06); border-radius: 4px; height: 22px; overflow: hidden; }
+  .timing-bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; display: flex; align-items: center; padding-left: 6px; font-size: 10px; color: white; font-weight: 500; }
+  .hostel-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  .hostel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .hostel-name { font-size: 15px; font-weight: 600; color: var(--text-dark); }
+  .hostel-price { font-size: 16px; font-weight: 700; color: var(--saffron); }
+  .hostel-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .h-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    background: rgba(200,151,58,0.12); border: 1px solid var(--border); color: var(--text-muted);
+  }
+  .avail-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-top: 8px;
+  }
+  .avail-badge.yes { background: rgba(58,170,106,0.12); color: #2A8A50; border: 1px solid rgba(58,170,106,0.3); }
+  .avail-badge.no  { background: rgba(204,68,51,0.12);  color: #A83020; border: 1px solid rgba(204,68,51,0.3); }
+  .avail-badge.few { background: rgba(200,135,42,0.12); color: #9A6A1A; border: 1px solid rgba(200,135,42,0.3); }
+  .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .food-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  .food-card:hover { border-color: var(--saffron); }
+  .food-icon { font-size: 28px; margin-bottom: 8px; }
+  .food-name { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+  .food-info { font-size: 11px; color: var(--text-muted); }
+  .food-status { display: flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 11px; }
+  .checklist-section-title {
+    font-size: 14px; font-weight: 600; color: var(--saffron);
+    margin: 16px 0 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .checklist-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  .checklist-item:hover { border-color: var(--saffron); }
+  .checklist-item.checked { opacity: 0.55; }
+  .check-box {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s; font-size: 14px;
+  }
+  .checklist-item.checked .check-box { background: var(--gold); border-color: var(--gold); }
+  .check-label { font-size: 13px; color: var(--text-light); flex: 1; }
+  .checklist-item.checked .check-label { text-decoration: line-through; color: var(--text-muted); }
+  .dont-item { border-color: rgba(204,68,51,0.25); }
+  .dont-item .check-box { border-color: var(--red); }
+  .progress-bar-wrap { background: rgba(0,0,0,0.08); border-radius: 6px; height: 8px; margin-bottom: 16px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--saffron), var(--gold)); transition: width 0.4s ease; }
+  #chat-box {
+    background: var(--bg-card2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 16px;
+    height: 340px;
+    overflow-y: auto;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(200,151,58,0.3) transparent;
+    box-shadow: var(--shadow-sm);
+  }
+  .chat-msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .chat-msg.bot {
+    background: #FFF3E8;
+    border: 1px solid rgba(200,151,58,0.3);
+    color: var(--text-dark);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .chat-msg.user {
+    background: var(--saffron);
+    border: 1px solid var(--saffron-dark);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .chat-msg.typing { opacity: 0.7; font-style: italic; }
+  .chat-input-row { display: flex; gap: 10px; }
+  .chat-input {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 10px 18px;
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+  .chat-input::placeholder { color: var(--text-muted); }
+  .chat-input:focus { border-color: var(--saffron); }
+  .chat-send {
+    width: 42px; height: 42px;
+    background: var(--saffron);
+    border: none; border-radius: 50%;
+    color: white; font-size: 16px;
+    cursor: pointer; flex-shrink: 0;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .chat-send:hover { background: var(--saffron-dark); }
+  .quick-questions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .quick-q {
+    background: rgba(200,151,58,0.1);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 5px 12px; border-radius: 16px;
+    font-size: 11px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Poppins', sans-serif;
+  }
+  .quick-q:hover { background: rgba(200,151,58,0.2); color: var(--saffron-dark); }
+  .lf-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  .lf-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .lf-type { font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+  .lf-type.lost  { background: rgba(204,68,51,0.15); color: #A83020; }
+  .lf-type.found { background: rgba(58,170,106,0.15); color: #2A8A50; }
+  .lf-time { font-size: 11px; color: var(--text-muted); }
+  .lf-item { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+  .lf-desc { font-size: 12px; color: var(--text-muted); }
+  .lf-form input, .lf-form textarea, .lf-form select {
+    width: 100%;
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .lf-form input:focus, .lf-form textarea:focus, .lf-form select:focus {
+    border-color: var(--saffron);
+  }
+  .emergency-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .emergency-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(204,68,51,0.1), rgba(204,68,51,0.03));
+    border: 2px solid rgba(204,68,51,0.35);
+    border-radius: var(--radius);
+    padding: 20px 12px;
+    cursor: pointer; gap: 8px;
+    transition: all 0.2s;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+  }
+  .emergency-btn:hover { border-color: #CC4433; background: rgba(204,68,51,0.15); transform: scale(1.02); }
+  .emergency-btn.blue {
+    background: linear-gradient(135deg, rgba(58,136,204,0.1), rgba(58,136,204,0.03));
+    border-color: rgba(58,136,204,0.35);
+  }
+  .emergency-btn.blue:hover { border-color: #3A88CC; background: rgba(58,136,204,0.15); }
+  .emergency-btn.green {
+    background: linear-gradient(135deg, rgba(58,170,106,0.1), rgba(58,170,106,0.03));
+    border-color: rgba(58,170,106,0.35);
+  }
+  .emergency-btn.green:hover { border-color: #3AAA6A; background: rgba(58,170,106,0.15); }
+  .emergency-btn.amber {
+    background: linear-gradient(135deg, rgba(200,135,42,0.1), rgba(200,135,42,0.03));
+    border-color: rgba(200,135,42,0.35);
+  }
+  .emergency-btn.amber:hover { border-color: #C8872A; background: rgba(200,135,42,0.15); }
+  .em-icon { font-size: 32px; }
+  .em-name { font-size: 13px; font-weight: 600; color: var(--text-dark); text-align: center; }
+  .em-num  { font-size: 20px; font-weight: 700; color: #CC4433; }
+  .emergency-btn.blue .em-num  { color: #3A88CC; }
+  .emergency-btn.green .em-num { color: #2A8A50; }
+  .emergency-btn.amber .em-num { color: #9A6A1A; }
+  .em-tap { font-size: 10px; color: var(--text-muted); }
+  .alert-box {
+    background: rgba(204,68,51,0.08);
+    border: 1px solid rgba(204,68,51,0.25);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .alert-btn {
+    width: 100%; margin-top: 12px;
+    background: #CC4433; border: none;
+    color: white; font-size: 14px; font-weight: 700;
+    padding: 14px; border-radius: var(--radius-sm);
+    cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .alert-btn:hover { background: #AA3020; }
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .faq-q {
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 14px; color: var(--text-dark); font-weight: 500;
+    transition: background 0.2s;
+  }
+  .faq-q:hover { background: rgba(200,151,58,0.07); }
+  .faq-arrow { transition: transform 0.3s; font-size: 12px; color: var(--text-muted); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    font-size: 13px; color: var(--text-muted); line-height: 1.6;
+    padding: 0 16px;
+  }
+  .faq-item.open .faq-q { background: rgba(200,151,58,0.07); }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 16px 14px; }
+  .feedback-form input, .feedback-form textarea, .feedback-form select {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    margin-bottom: 12px;
+    outline: none;
+  }
+  .feedback-form input:focus, .feedback-form textarea:focus, .feedback-form select:focus {
+    border-color: var(--saffron);
+  }
+  .feedback-form select option { background: var(--bg-card2); }
+  .star-rating { display: flex; gap: 6px; margin-bottom: 14px; }
+  .star-r {
+    font-size: 32px; cursor: pointer; color: rgba(200,151,58,0.25);
+    transition: color 0.15s, transform 0.15s;
+  }
+  .star-r.lit { color: var(--gold); }
+  .star-r:hover { transform: scale(1.2); }
+  .form-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: block; }
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+    border: none; color: white;
+    font-size: 15px; font-weight: 600;
+    padding: 14px; border-radius: var(--radius-sm);
+    cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .success-msg {
+    display: none;
+    background: rgba(58,170,106,0.12);
+    border: 1px solid rgba(58,170,106,0.3);
+    border-radius: var(--radius-sm);
+    padding: 16px; text-align: center;
+    color: #2A8A50; font-size: 14px; margin-top: 12px;
+  }
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .team-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 14px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  .team-card:hover { border-color: var(--saffron); transform: translateY(-2px); }
+  .team-avatar {
+    width: 60px; height: 60px; border-radius: 50%;
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; border: 2px solid var(--gold);
+  }
+  .team-name { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+  .team-role { font-size: 10px; font-weight: 600; color: var(--saffron); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .team-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+  .team-footer {
+    margin-top: 20px;
+    background: linear-gradient(135deg, var(--bg-card), rgba(200,151,58,0.06));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .place-card {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  .place-card:hover { border-color: var(--saffron); transform: translateY(-1px); }
+  .place-icon { font-size: 24px; flex-shrink: 0; }
+  .place-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+  .place-sub  { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--saffron-dark);
+    padding: 10px 22px; border-radius: 24px;
+    font-size: 13px; font-weight: 500;
+    z-index: 9999; opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: var(--shadow);
+  }
+  #toast.show { opacity: 1; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+    border: none; color: white;
+    font-size: 13px; font-weight: 600;
+    padding: 10px 20px; border-radius: var(--radius-sm);
+    cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: opacity 0.2s; width: 100%;
+    margin-top: 8px;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px; font-weight: 500;
+    padding: 10px 20px; border-radius: var(--radius-sm);
+    cursor: pointer; font-family: 'Poppins', sans-serif;
+    transition: all 0.2s; width: 100%; margin-top: 8px;
+  }
+  .btn-outline:hover { border-color: var(--saffron); color: var(--saffron); background: rgba(200,151,58,0.06); }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(200,151,58,0.3); border-radius: 4px; }
+  .err { color: var(--red); font-size: 12px; margin-top: -8px; margin-bottom: 8px; display: none; }
+  .err.show { display: block; }
+  @media (max-width: 480px) {
+    .team-grid, .food-grid, .timing-grid, .emergency-grid { grid-template-columns: 1fr; }
+    #place-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Language Bar -->
+<div id="lang-bar">
+  <button class="lang-btn active" onclick="setLang('en')">English</button>
+  <button class="lang-btn" onclick="setLang('mr')">मराठी</button>
+  <button class="lang-btn" onclick="setLang('hi')">हिंदी</button>
+</div>
+
+<!-- Hero -->
+<div id="hero">
+  <div class="hero-icon">🛕</div>
+  <div class="hero-title">Pilgrim Pro</div>
+  <div class="hero-tagline" id="hero-tagline">Your Sacred Companion for Alandi Pilgrimage · ज्ञानोबा-माऊली 🙏</div>
+</div>
+
+<!-- Nav Tabs – BIGGER buttons -->
+<div id="nav">
+  <button class="nav-tab active" onclick="showTab('map',this)"><span class="ti">🗺️</span><span data-key="nav_map">Map</span></button>
+  <button class="nav-tab" onclick="showTab('crowd',this)"><span class="ti">👥</span><span data-key="nav_crowd">Crowd</span></button>
+  <button class="nav-tab" onclick="showTab('routes',this)"><span class="ti">🚶</span><span data-key="nav_routes">Routes</span></button>
+  <button class="nav-tab" onclick="showTab('timing',this)"><span class="ti">⏰</span><span data-key="nav_timing">Timing</span></button>
+  <button class="nav-tab" onclick="showTab('stay',this)"><span class="ti">🏨</span><span data-key="nav_stay">Stay</span></button>
+  <button class="nav-tab" onclick="showTab('food',this)"><span class="ti">🍽️</span><span data-key="nav_food">Food</span></button>
+  <button class="nav-tab" onclick="showTab('checklist',this)"><span class="ti">✅</span><span data-key="nav_check">Checklist</span></button>
+  <button class="nav-tab" onclick="showTab('guide',this)"><span class="ti">🤖</span><span data-key="nav_guide">AI Guide</span></button>
+  <button class="nav-tab" onclick="showTab('lf',this)"><span class="ti">🔍</span><span data-key="nav_lf">Lost & Found</span></button>
+  <button class="nav-tab" onclick="showTab('help',this)"><span class="ti">❓</span><span data-key="nav_help">Help</span></button>
+  <button class="nav-tab" onclick="showTab('emergency',this)"><span class="ti">🆘</span><span data-key="nav_em">Emergency</span></button>
+  <button class="nav-tab" onclick="showTab('feedback',this)"><span class="ti">💬</span><span data-key="nav_fb">Feedback</span></button>
+  <button class="nav-tab" onclick="showTab('team',this)"><span class="ti">👨‍👩‍👧‍👦</span><span data-key="nav_team">Team</span></button>
+</div>
+
+<!-- MAP -->
+<div id="sec-map" class="section active">
+  <div class="section-title">🗺️ <span data-key="sec_map">Live Navigation Map</span></div>
+  <div class="map-controls" style="margin-bottom:10px;">
+    <button class="map-btn active" onclick="jumpTo('temple')">🛕 Temple</button>
+    <button class="map-btn" onclick="jumpTo('ghat')">🌊 Ghat</button>
+    <button class="map-btn" onclick="jumpTo('busstand')">🚌 Bus Stand</button>
+    <button class="map-btn" onclick="jumpTo('parking')">🅿️ Parking</button>
+    <button class="map-btn" onclick="jumpTo('hospital')">🏥 Hospital</button>
+  </div>
+  <div id="map-container" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-sm);position:relative;">
+    <iframe id="gmap-frame"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.3!2d73.8983!3d18.6754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9b9b9b9b9b9%3A0x0!2sSant%20Dnyaneshwar%20Samadhi%20Mandir%2C%20Alandi%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1699000000000!5m2!1sen!2sin"
+      width="100%" height="420" style="border:0;display:block;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade" title="Alandi Pilgrimage Map">
+    </iframe>
+    <a href="https://maps.google.com/?q=Sant+Dnyaneshwar+Samadhi+Mandir,Alandi,Maharashtra" target="_blank"
+       style="position:absolute;bottom:12px;right:12px;background:var(--saffron);color:white;font-size:12px;font-weight:600;padding:7px 14px;border-radius:20px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.2);font-family:'Poppins',sans-serif;">
+      📍 Open in Google Maps
+    </a>
+  </div>
+  <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="place-cards">
+    <a class="place-card" href="https://maps.google.com/?q=Sant+Dnyaneshwar+Mandir+Alandi" target="_blank">
+      <span class="place-icon">🛕</span>
+      <div><div class="place-name">Dnyaneshwar Mandir</div><div class="place-sub">Main temple · Tap to navigate</div></div>
+    </a>
+    <a class="place-card" href="https://maps.google.com/?q=Samadhi+Mandir+Alandi" target="_blank">
+      <span class="place-icon">☸️</span>
+      <div><div class="place-name">Samadhi Mandir</div><div class="place-sub">Sacred samadhi · Tap to navigate</div></div>
+    </a>
+    <a class="place-card" href="https://maps.google.com/?q=Indrayani+Ghat+Alandi" target="_blank">
+      <span class="place-icon">🌊</span>
+      <div><div class="place-name">Indrayani Ghat</div><div class="place-sub">River ghat · Tap to navigate</div></div>
+    </a>
+    <a class="place-card" href="https://maps.google.com/?q=Alandi+Bus+Stand" target="_blank">
+      <span class="place-icon">🚌</span>
+      <div><div class="place-name">Alandi Bus Stand</div><div class="place-sub">PMPML stop · Tap to navigate</div></div>
+    </a>
+    <a class="place-card" href="https://maps.google.com/?q=Rural+Hospital+Alandi" target="_blank">
+      <span class="place-icon">🏥</span>
+      <div><div class="place-name">Rural Hospital</div><div class="place-sub">Nearest medical · Tap to navigate</div></div>
+    </a>
+    <a class="place-card" href="https://maps.google.com/?q=Alandi+Parking+Lot" target="_blank">
+      <span class="place-icon">🅿️</span>
+      <div><div class="place-name">Main Parking</div><div class="place-sub">Vehicle parking · Tap to navigate</div></div>
+    </a>
+  </div>
+  <div style="margin-top:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow-sm);">
+    <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:10px;">🧭 Get Directions to Alandi Temple</div>
+    <div style="display:flex;gap:8px;">
+      <input id="dir-from" class="chat-input" placeholder="Your starting location..." style="border-radius:var(--radius-sm);flex:1;">
+      <a id="dir-btn" href="https://maps.google.com/?saddr=Pune&daddr=Sant+Dnyaneshwar+Samadhi+Mandir+Alandi" target="_blank"
+         style="background:var(--saffron);color:white;font-weight:600;font-size:13px;padding:10px 16px;border-radius:var(--radius-sm);text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;">
+        ➤ Go
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CROWD -->
+<div id="sec-crowd" class="section">
+  <div class="section-title">👥 <span data-key="sec_crowd">Live Crowd Monitor</span></div>
+  <div class="crowd-meter">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <span style="font-size:15px;font-weight:600;color:var(--text-dark)">Main Temple Gate</span>
+      <span style="font-size:20px;font-weight:700;color:#C8872A" id="crowd-pct-1">62%</span>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px" id="crowd-lbl-1">Moderate crowd · ~1,200 pilgrims</div>
+    <div class="meter-bar"><div class="meter-needle" id="crowd-needle-1" style="left:62%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)">
+      <span>Light</span><span>Moderate</span><span>Heavy</span>
+    </div>
+  </div>
+  <div class="crowd-meter">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <span style="font-size:15px;font-weight:600;color:var(--text-dark)">Samadhi Mandir</span>
+      <span style="font-size:20px;font-weight:700;color:#CC4433" id="crowd-pct-2">85%</span>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px" id="crowd-lbl-2">Heavy crowd · Expect 45 min wait</div>
+    <div class="meter-bar"><div class="meter-needle" id="crowd-needle-2" style="left:85%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)">
+      <span>Light</span><span>Moderate</span><span>Heavy</span>
+    </div>
+  </div>
+  <div class="crowd-meter">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <span style="font-size:15px;font-weight:600;color:var(--text-dark)">Indrayani Ghat</span>
+      <span style="font-size:20px;font-weight:700;color:#2A8A50" id="crowd-pct-3">28%</span>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px" id="crowd-lbl-3">Light crowd · Good time to visit</div>
+    <div class="meter-bar"><div class="meter-needle" id="crowd-needle-3" style="left:28%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted)">
+      <span>Light</span><span>Moderate</span><span>Heavy</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">💡 Smart Suggestion</div>
+    <div class="card-text" id="crowd-suggestion">Current best time to avoid crowds: <strong style="color:var(--saffron-dark)">5:30 AM – 7:00 AM</strong> and <strong style="color:var(--saffron-dark)">8:00 PM – 9:00 PM</strong>. Samadhi Mandir is very busy now — consider visiting Indrayani Ghat first.</div>
+  </div>
+</div>
+
+<!-- ROUTES -->
+<div id="sec-routes" class="section">
+  <div class="section-title">🚶 <span data-key="sec_routes">Pilgrimage Routes</span></div>
+  <div class="route-card" onclick="toggleRoute(this)">
+    <div class="route-header">
+      <span class="route-name">🚶 Main Pilgrimage Route</span>
+      <span class="route-tag easy">Easy</span>
+    </div>
+    <div class="route-stats">
+      <span class="route-stat">📏 3.2 km</span>
+      <span class="route-stat">⏱ ~45 min</span>
+      <span class="route-stat">💧 3 water points</span>
+    </div>
+    <div class="route-steps">
+      <div class="route-step"><div class="step-num">1</div><div style="font-size:12px;color:var(--text-muted)">Alandi Bus Stand (Start) – Head north on Mandir Road</div></div>
+      <div class="route-step"><div class="step-num">2</div><div style="font-size:12px;color:var(--text-muted)">Cross Indrayani Bridge – turn right at Ghats</div></div>
+      <div class="route-step"><div class="step-num">3</div><div style="font-size:12px;color:var(--text-muted)">Follow riverside path to Main Temple Gate</div></div>
+      <div class="route-step"><div class="step-num">4</div><div style="font-size:12px;color:var(--text-muted)">Dnyaneshwar Temple Darshan</div></div>
+      <div class="route-step"><div class="step-num">5</div><div style="font-size:12px;color:var(--text-muted)">Samadhi Mandir – Last stop</div></div>
+    </div>
+  </div>
+  <div class="route-card" onclick="toggleRoute(this)">
+    <div class="route-header">
+      <span class="route-name">🌊 River Ghat Route</span>
+      <span class="route-tag moderate">Moderate</span>
+    </div>
+    <div class="route-stats">
+      <span class="route-stat">📏 4.8 km</span>
+      <span class="route-stat">⏱ ~70 min</span>
+      <span class="route-stat">🌊 Scenic River Views</span>
+    </div>
+    <div class="route-steps">
+      <div class="route-step"><div class="step-num">1</div><div style="font-size:12px;color:var(--text-muted)">Parking Lot A → Enter from south gate</div></div>
+      <div class="route-step"><div class="step-num">2</div><div style="font-size:12px;color:var(--text-muted)">Walk along Indrayani Ghat – Holy dip available</div></div>
+      <div class="route-step"><div class="step-num">3</div><div style="font-size:12px;color:var(--text-muted)">Mukti Mandap → Vitthal Temple</div></div>
+      <div class="route-step"><div class="step-num">4</div><div style="font-size:12px;color:var(--text-muted)">Dnyaneshwar Samadhi Mandir</div></div>
+    </div>
+  </div>
+  <div class="route-card" onclick="toggleRoute(this)">
+    <div class="route-header">
+      <span class="route-name">🏃 Express Darshan Route</span>
+      <span class="route-tag easy">Easy · VIP</span>
+    </div>
+    <div class="route-stats">
+      <span class="route-stat">📏 1.5 km</span>
+      <span class="route-stat">⏱ ~20 min</span>
+      <span class="route-stat">🎟️ Pass Required</span>
+    </div>
+    <div class="route-steps">
+      <div class="route-step"><div class="step-num">1</div><div style="font-size:12px;color:var(--text-muted)">Collect VIP pass at Trust Office (10am–4pm)</div></div>
+      <div class="route-step"><div class="step-num">2</div><div style="font-size:12px;color:var(--text-muted)">Enter through Gate 3 (priority entry)</div></div>
+      <div class="route-step"><div class="step-num">3</div><div style="font-size:12px;color:var(--text-muted)">Darshan – direct to Samadhi. Duration 15 min.</div></div>
+    </div>
+  </div>
+  <div class="card" id="accessibility-card">
+    <div class="card-title">♿ Accessibility Route</div>
+    <div class="card-text">Wheelchair-friendly route available via Gate 1 ramp access. Escort service provided by temple volunteers. Senior citizens get priority darshan.</div>
+    <div id="accessibility-details" style="display:none;margin-top:14px;">
+      <div style="font-size:13px;font-weight:600;color:var(--saffron-dark);margin-bottom:10px;">♿ Full Accessibility Route Guide</div>
+      <div class="route-step" style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div class="step-num">1</div>
+        <div style="font-size:12px;color:var(--text-muted)"><strong>Arrival:</strong> Drive to Gate 1 (main entrance). Dedicated accessible parking spots available within 50 meters.</div>
+      </div>
+      <div class="route-step" style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div class="step-num">2</div>
+        <div style="font-size:12px;color:var(--text-muted)"><strong>Help Desk:</strong> Report at Gate 1 Help Desk. Request wheelchair (free) and volunteer escort. Show any disability certificate for priority pass.</div>
+      </div>
+      <div class="route-step" style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div class="step-num">3</div>
+        <div style="font-size:12px;color:var(--text-muted)"><strong>Ramp Entry:</strong> Use the dedicated ramp on the left side of Gate 1. Flat, smooth surface — no stairs. Volunteer will guide you.</div>
+      </div>
+      <div class="route-step" style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div class="step-num">4</div>
+        <div style="font-size:12px;color:var(--text-muted)"><strong>Priority Darshan:</strong> Direct access to Samadhi Mandir via accessible corridor. No queue wait — priority entry for wheelchair users & senior citizens (65+).</div>
+      </div>
+      <div class="route-step" style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div class="step-num">5</div>
+        <div style="font-size:12px;color:var(--text-muted)"><strong>Rest Area:</strong> Shaded rest benches available near exit. Accessible toilet near Gate 1. Drinking water station with low-height tap.</div>
+      </div>
+      <div class="route-step" style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;">
+        <div class="step-num">6</div>
+        <div style="font-size:12px;color:var(--text-muted)"><strong>Exit:</strong> Return wheelchair at Gate 1 desk. Escort will help you back to parking. Total route: ~0.8 km, flat surface, ~25 min.</div>
+      </div>
+      <div style="margin-top:12px;background:rgba(58,170,106,0.08);border:1px solid rgba(58,170,106,0.25);border-radius:var(--radius-sm);padding:12px;">
+        <div style="font-size:12px;color:#2A8A50;line-height:1.6;">
+          <strong>ℹ️ Accessibility Facilities:</strong><br>
+          ✔ Free wheelchairs at Gate 1 & Gate 3<br>
+          ✔ Ramp access at main entrance<br>
+          ✔ Accessible toilets near Gate 1<br>
+          ✔ Priority darshan (no queue)<br>
+          ✔ Volunteer escort service (free)<br>
+          ✔ Rest benches every 100 meters<br>
+          ✔ Low-height water fountains<br>
+          📞 For advance booking: Call Temple Trust 1800-22-3011
+        </div>
+      </div>
+    </div>
+    <button class="btn-outline" id="accessibility-btn" onclick="toggleAccessibility()">♿ View Full Accessibility Guide</button>
+  </div>
+</div>
+
+<!-- TIMING -->
+<div id="sec-timing" class="section">
+  <div class="section-title">⏰ <span data-key="sec_timing">Best Visit Timings</span></div>
+  <div class="timing-grid">
+    <div class="timing-card">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">🌅 Best Morning</div>
+      <div class="timing-time">5:30 AM</div>
+      <div class="timing-label">Kaakad Aarti – Least Crowd</div>
+      <div class="timing-rating">
+        <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+      </div>
+    </div>
+    <div class="timing-card">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">🌇 Best Evening</div>
+      <div class="timing-time">7:00 PM</div>
+      <div class="timing-label">Shej Aarti – Spiritual Atmosphere</div>
+      <div class="timing-rating">
+        <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span>
+      </div>
+    </div>
+    <div class="timing-card">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">⚠️ Avoid</div>
+      <div class="timing-time">11 AM–2 PM</div>
+      <div class="timing-label">Peak Crowd + High Heat</div>
+      <div class="timing-rating">
+        <span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
+      </div>
+    </div>
+    <div class="timing-card">
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">🕯️ Special Aarti</div>
+      <div class="timing-time">12:00 PM</div>
+      <div class="timing-label">Madhyan Aarti – Temple Closes 1 hr</div>
+      <div class="timing-rating">
+        <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span><span class="star-empty">★</span>
+      </div>
+    </div>
+  </div>
+  <div class="timing-chart">
+    <div style="font-size:14px;font-weight:600;color:var(--text-dark);margin-bottom:14px">📊 Crowd Level by Hour</div>
+    <div class="timing-bar-row"><span class="timing-hour">4–5 AM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:15%;background:#3AAA6A">Low</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">5–7 AM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:25%;background:#3AAA6A">Best</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">7–9 AM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:45%;background:#C8872A">Mod</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">9–11 AM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:68%;background:#C8872A">High</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">11AM–2PM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:92%;background:#CC4433">Peak</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">2–5 PM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:65%;background:#C8872A">Mod</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">5–7 PM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:50%;background:#C8872A">Mod</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">7–9 PM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:30%;background:#3AAA6A">Low</div></div></div>
+    <div class="timing-bar-row"><span class="timing-hour">After 9PM</span><div class="timing-bar-wrap"><div class="timing-bar-fill" style="width:10%;background:#3AAA6A">Low</div></div></div>
+  </div>
+</div>
+
+<!-- STAY -->
+<div id="sec-stay" class="section">
+  <div class="section-title">🏨 <span data-key="sec_stay">Accommodation</span></div>
+  <div class="hostel-card">
+    <div class="hostel-header">
+      <div><div class="hostel-name">🏛️ Dnyaneshwar Dharamshala</div><div style="font-size:12px;color:var(--text-muted)">0.2 km from temple · Managed by Temple Trust</div></div>
+      <div class="hostel-price">Free</div>
+    </div>
+    <div class="card-text">Basic clean accommodation for pilgrims. Vegetarian meals provided. Strict religious atmosphere. Limited capacity.</div>
+    <div class="hostel-tags"><span class="h-tag">Meals Included</span><span class="h-tag">CCTV</span><span class="h-tag">No AC</span><span class="h-tag">Temple Trust</span></div>
+    <div class="avail-badge few">🟡 Few spots · Book early</div>
+  </div>
+  <div class="hostel-card">
+    <div class="hostel-header">
+      <div><div class="hostel-name">🏩 Indrayani Guest House</div><div style="font-size:12px;color:var(--text-muted)">0.5 km · River view rooms</div></div>
+      <div class="hostel-price">₹450/night</div>
+    </div>
+    <div class="card-text">Comfortable private rooms with attached bathroom. 24-hour hot water. Walking distance to temple.</div>
+    <div class="hostel-tags"><span class="h-tag">AC Rooms</span><span class="h-tag">Wi-Fi</span><span class="h-tag">River View</span><span class="h-tag">Parking</span></div>
+    <div class="avail-badge yes">🟢 Available</div>
+  </div>
+  <div class="hostel-card">
+    <div class="hostel-header">
+      <div><div class="hostel-name">🛏️ Pilgrim Seva Niwas</div><div style="font-size:12px;color:var(--text-muted)">1.0 km · Budget dormitory</div></div>
+      <div class="hostel-price">₹120/bed</div>
+    </div>
+    <div class="card-text">Dormitory-style accommodation for groups. Separate male/female sections. Lockers available.</div>
+    <div class="hostel-tags"><span class="h-tag">Dormitory</span><span class="h-tag">Lockers</span><span class="h-tag">Filtered Water</span></div>
+    <div class="avail-badge yes">🟢 Available</div>
+  </div>
+  <div class="hostel-card">
+    <div class="hostel-header">
+      <div><div class="hostel-name">🏨 Alandi Heritage Hotel</div><div style="font-size:12px;color:var(--text-muted)">1.5 km · Premium option</div></div>
+      <div class="hostel-price">₹1,800/night</div>
+    </div>
+    <div class="card-text">Full hotel experience with restaurant, room service, and daily temple shuttle service.</div>
+    <div class="hostel-tags"><span class="h-tag">Restaurant</span><span class="h-tag">Shuttle</span><span class="h-tag">AC</span><span class="h-tag">24hr Desk</span></div>
+    <div class="avail-badge no">🔴 Fully Booked</div>
+  </div>
+</div>
+
+<!-- FOOD -->
+<div id="sec-food" class="section">
+  <div class="section-title">🍽️ <span data-key="sec_food">Food Availability</span></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">ℹ️ Food Policy</div>
+    <div class="card-text">All food near the temple is <strong style="color:var(--saffron-dark)">100% vegetarian</strong>. Non-veg food is strictly prohibited within 1 km of the temple premises.</div>
+  </div>
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-icon">🍛</div>
+      <div class="food-name">Prasad Bhojan</div>
+      <div class="food-info">Temple Trust · Free meals</div>
+      <div class="food-status"><div class="status-dot green" style="width:7px;height:7px"></div> <span style="font-size:11px;color:#2A8A50">Open till 2 PM</span></div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🥣</div>
+      <div class="food-name">Pithla-Bhakri Stalls</div>
+      <div class="food-info">Near Ghat · ₹30–60</div>
+      <div class="food-status"><div class="status-dot green" style="width:7px;height:7px"></div> <span style="font-size:11px;color:#2A8A50">Open · 12 stalls</span></div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">☕</div>
+      <div class="food-name">Tea & Snacks</div>
+      <div class="food-info">All gates · ₹10–30</div>
+      <div class="food-status"><div class="status-dot green" style="width:7px;height:7px"></div> <span style="font-size:11px;color:#2A8A50">Open · 24 hr</span></div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🥤</div>
+      <div class="food-name">Sugarcane Juice</div>
+      <div class="food-info">Near parking · ₹20</div>
+      <div class="food-status"><div class="status-dot amber" style="width:7px;height:7px"></div> <span style="font-size:11px;color:#9A6A1A">Seasonal</span></div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍵</div>
+      <div class="food-name">Misal Pav</div>
+      <div class="food-info">Mandir Road · ₹40–80</div>
+      <div class="food-status"><div class="status-dot green" style="width:7px;height:7px"></div> <span style="font-size:11px;color:#2A8A50">Morning only</span></div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍬</div>
+      <div class="food-name">Prasad Shops</div>
+      <div class="food-info">Temple entrance · ₹20–100</div>
+      <div class="food-status"><div class="status-dot green" style="width:7px;height:7px"></div> <span style="font-size:11px;color:#2A8A50">Open all day</span></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="card-title">💧 Water Availability</div>
+    <div class="card-text">Free filtered water available at 8 locations (marked on map). Water coolers active at all major gates. Bring your own bottle to reduce plastic.</div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div id="sec-checklist" class="section">
+  <div class="section-title">✅ <span data-key="sec_checklist">Pilgrimage Checklist</span></div>
+  <div style="background:var(--bg-card);border-radius:var(--radius);padding:14px;margin-bottom:16px;box-shadow:var(--shadow-sm)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span style="font-size:13px;color:var(--text-muted)">Pack Progress</span>
+      <span style="font-size:13px;font-weight:600;color:var(--saffron-dark)" id="progress-text">0 / 8 checked</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
+  </div>
+  <div class="checklist-section-title">✅ What to Carry</div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">🆔 Government-issued Photo ID (Aadhar / PAN)</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">💧 Water Bottle (1L minimum)</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">👡 Comfortable footwear (you'll walk a lot!)</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">🧺 Prasad / Flower offering for darshan</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">🧴 Sunscreen & small towel</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">💊 Personal medications (if any)</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">📱 Phone (charged) + power bank</span>
+  </div>
+  <div class="checklist-item" onclick="toggleCheck(this)">
+    <div class="check-box"></div><span class="check-label">💰 Cash (₹200–500 recommended)</span>
+  </div>
+  <div class="checklist-section-title" style="color:var(--red);margin-top:20px">❌ Do NOT Bring</div>
+  <div class="checklist-item dont-item">
+    <div class="check-box" style="border-color:var(--red);background:rgba(204,68,51,0.1)">❌</div>
+    <span class="check-label" style="color:var(--text-muted)">Non-vegetarian food or alcohol</span>
+  </div>
+  <div class="checklist-item dont-item">
+    <div class="check-box" style="border-color:var(--red);background:rgba(204,68,51,0.1)">❌</div>
+    <span class="check-label" style="color:var(--text-muted)">Tobacco or cigarettes (prohibited premises)</span>
+  </div>
+  <div class="checklist-item dont-item">
+    <div class="check-box" style="border-color:var(--red);background:rgba(204,68,51,0.1)">❌</div>
+    <span class="check-label" style="color:var(--text-muted)">Leather items inside temple sanctum</span>
+  </div>
+  <div class="checklist-section-title" style="color:var(--teal);margin-top:20px">📋 Before You Visit</div>
+  <div class="card">
+    <div class="card-text" style="line-height:1.9">
+      ✔ Check today's temple timings (use Timing tab)<br>
+      ✔ Check live crowd before leaving (use Crowd tab)<br>
+      ✔ Inform a family member of your schedule<br>
+      ✔ Save emergency numbers offline<br>
+      ✔ Dress modestly (traditional preferred)
+    </div>
+  </div>
+</div>
+
+<!-- AI GUIDE -->
+<div id="sec-guide" class="section">
+  <div class="section-title">🤖 <span data-key="sec_guide">AI Pilgrimage Guide</span></div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">🙏 Namaste! I'm your AI Guide</div>
+    <div class="card-text">Ask me anything about Alandi, Sant Dnyaneshwar, temple rituals, routes, timings, or local culture. Available in English, Marathi & Hindi.</div>
+  </div>
+  <div class="quick-questions">
+    <button class="quick-q" onclick="sendChat('What are the darshan timings today?')">Darshan timings?</button>
+    <button class="quick-q" onclick="sendChat('Tell me about Sant Dnyaneshwar Maharaj')">About Sant Dnyaneshwar</button>
+    <button class="quick-q" onclick="sendChat('What is the significance of Alandi?')">Alandi significance</button>
+    <button class="quick-q" onclick="sendChat('What should I do if I get separated from my group?')">Lost from group?</button>
+    <button class="quick-q" onclick="sendChat('Which prasad should I offer at the temple?')">Prasad guide</button>
+    <button class="quick-q" onclick="sendChat('Tell me about the accessibility route for wheelchair users')">♿ Accessibility</button>
+  </div>
+  <div id="chat-box">
+    <div class="chat-msg bot">🙏 Jai Dnyaneshwar! Welcome to Pilgrim Pro AI Guide. I'm here to help you with everything about the Alandi pilgrimage — from temple history to practical travel tips. How may I assist you today?</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" placeholder="Ask your question..." onkeydown="if(event.key==='Enter')sendChat()"/>
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- LOST & FOUND -->
+<div id="sec-lf" class="section">
+  <div class="section-title">🔍 <span data-key="sec_lf">Lost & Found</span></div>
+  <div style="display:flex;gap:10px;margin-bottom:16px">
+    <button class="map-btn active" id="lf-tab-board" onclick="showLF('board',this)">📋 Notice Board</button>
+    <button class="map-btn" id="lf-tab-report" onclick="showLF('report',this)">📝 Report</button>
+  </div>
+  <div id="lf-board">
+    <div class="lf-card">
+      <div class="lf-header"><span class="lf-type lost">LOST</span><span class="lf-time">Today, 10:23 AM</span></div>
+      <div class="lf-item">Black leather wallet</div>
+      <div class="lf-desc">Lost near Gate 2. Contains Aadhar card. Contact: 98XXXXX432</div>
+    </div>
+    <div class="lf-card">
+      <div class="lf-header"><span class="lf-type found">FOUND</span><span class="lf-time">Today, 9:45 AM</span></div>
+      <div class="lf-item">Child – Boy, age ~7, blue shirt</div>
+      <div class="lf-desc">Found near Samadhi Mandir. Currently at Help Desk Gate 1. Parents please report immediately.</div>
+    </div>
+    <div class="lf-card">
+      <div class="lf-header"><span class="lf-type lost">LOST</span><span class="lf-time">Yesterday, 4:11 PM</span></div>
+      <div class="lf-item">Silver anklet (payal)</div>
+      <div class="lf-desc">Lost on the main ghat steps. Sentimental value. Contact help desk with description.</div>
+    </div>
+    <div class="lf-card">
+      <div class="lf-header"><span class="lf-type found">FOUND</span><span class="lf-time">Yesterday, 2:30 PM</span></div>
+      <div class="lf-item">Mobile phone – Samsung, red cover</div>
+      <div class="lf-desc">Found near food stalls. Deposited at Police Help Post near main gate.</div>
+    </div>
+  </div>
+  <div id="lf-report" style="display:none">
+    <div class="lf-form">
+      <label class="form-label">Type *</label>
+      <select id="lf-type-sel"><option value="Lost Item">Lost Item</option><option value="Found Item">Found Item</option><option value="Lost Person">Lost Person</option><option value="Found Person">Found Person</option></select>
+      <label class="form-label">Item/Person Description *</label>
+      <input type="text" id="lf-desc-inp" placeholder="e.g. Black wallet, blue ID inside">
+      <label class="form-label">Location where lost/found *</label>
+      <input type="text" id="lf-loc-inp" placeholder="e.g. Near Gate 2, Ghat area">
+      <label class="form-label">Your Contact Number *</label>
+      <input type="tel" id="lf-phone-inp" placeholder="10-digit mobile number">
+      <label class="form-label">Additional Details</label>
+      <textarea id="lf-extra-inp" rows="3" placeholder="Any other identifying details..."></textarea>
+      <span class="err" id="lf-err" style="display:none;color:var(--red);font-size:12px;margin-bottom:8px;">Please fill all required fields.</span>
+      <button class="btn-primary" onclick="submitLF()">📋 Post to Notice Board</button>
+    </div>
+  </div>
+</div>
+
+<!-- HELP CENTER -->
+<div id="sec-help" class="section">
+  <div class="section-title">❓ <span data-key="sec_help">Help Center</span></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">🏢 Help Desks (Physical)</div>
+    <div class="card-text">
+      📍 Gate 1 – Main Help Desk (24 hr)<br>
+      📍 Gate 3 – Senior Citizen & Differently-abled Desk<br>
+      📍 Ghat Area – Tourist Info Point (6 AM – 8 PM)
+    </div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>What are the temple darshan timings?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">Temple opens at 4:30 AM with Kaakad Aarti. Darshan continues until 10:30 PM. Closes briefly at 12:00–1:00 PM for Madhyan Aarti. Special timings apply on Ekadashi and festival days.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>Is photography allowed inside the temple?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">Photography is prohibited inside the Samadhi Mandir (inner sanctum). It is permitted in the outer courtyard and Ghat areas. Always be respectful of other pilgrims when clicking photos.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>How do I reach Alandi from Pune?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">Alandi is 24 km from Pune. PMPML buses run from Shivajinagar and Swargate (Bus No. 216 & 211). Shared autos from Dehu Road station. Private taxis available. Journey takes 45–60 min depending on traffic.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>Is there a dress code?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">Traditional and modest clothing is expected. Sarees, salwar-kameez or kurta-pyjama preferred. Shorts, sleeveless tops and revealing clothing should be avoided as a mark of respect.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>What facilities are available for the elderly?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">Wheelchair assistance available at Gate 1 and Gate 3. Priority darshan for senior citizens. Rest benches throughout the route. Medical volunteers on duty during peak hours.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>Where can I leave my belongings safely?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">Cloak rooms available near Gate 1 and Gate 3. Cost: ₹10–20 per item. Shoes must be deposited before entering temple — numbered token system ensures safe return.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFAQ(this)">
+    <div class="faq-q"><span>Is mobile network available inside?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a">All major networks (Jio, Airtel, VI, BSNL) available. Congestion during peak crowd. Download offline maps before visiting. Free Wi-Fi zones near the main gate.</div>
+  </div>
+</div>
+
+<!-- EMERGENCY -->
+<div id="sec-emergency" class="section">
+  <div class="section-title">🆘 <span data-key="sec_emergency">Emergency Center</span></div>
+  <div class="alert-box" style="margin-bottom:20px">
+    <div style="font-size:28px;flex-shrink:0">⚠️</div>
+    <div style="font-size:13px;color:var(--text-light);line-height:1.5">In a medical emergency, call <strong style="color:var(--red)">108</strong> immediately. For police, dial <strong style="color:var(--red)">112</strong>. Temple help desk: Gate 1 (available 24 hrs).</div>
+  </div>
+  <div style="font-size:14px;font-weight:600;color:var(--text-dark);margin-bottom:12px">📞 Tap to Call Directly</div>
+  <div class="emergency-grid">
+    <a class="emergency-btn" href="tel:112"><div class="em-icon">🚔</div><div class="em-name">Police Emergency</div><div class="em-num">112</div><div class="em-tap">Tap to call</div></a>
+    <a class="emergency-btn" href="tel:108"><div class="em-icon">🚑</div><div class="em-name">Ambulance</div><div class="em-num">108</div><div class="em-tap">Tap to call</div></a>
+    <a class="emergency-btn blue" href="tel:101"><div class="em-icon">🚒</div><div class="em-name">Fire Brigade</div><div class="em-num">101</div><div class="em-tap">Tap to call</div></a>
+    <a class="emergency-btn green" href="tel:1097"><div class="em-icon">🏥</div><div class="em-name">Medical Helpline</div><div class="em-num">1097</div><div class="em-tap">Tap to call</div></a>
+    <a class="emergency-btn amber" href="tel:1800223011"><div class="em-icon">🛕</div><div class="em-name">Temple Trust</div><div class="em-num">1800-22-3011</div><div class="em-tap">Tap to call (toll-free)</div></a>
+    <a class="emergency-btn blue" href="tel:1091"><div class="em-icon">👩</div><div class="em-name">Women Helpline</div><div class="em-num">1091</div><div class="em-tap">Tap to call</div></a>
+  </div>
+  <div style="margin-top:20px">
+    <div style="font-size:14px;font-weight:600;color:var(--text-dark);margin-bottom:12px">🚨 Send Emergency Alert</div>
+    <div style="background:var(--bg-card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)">
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px">This will send your name, location (Alandi Temple area) and a distress message to emergency services.</div>
+      <input class="chat-input" id="em-name" placeholder="Your Name" style="width:100%;border-radius:var(--radius-sm);margin-bottom:10px;display:block">
+      <input class="chat-input" id="em-phone" placeholder="Your phone number" style="width:100%;border-radius:var(--radius-sm);margin-bottom:10px;display:block">
+      <select id="em-type" style="width:100%;background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-dark);font-family:'Poppins',sans-serif;font-size:13px;margin-bottom:10px;outline:none">
+        <option>Medical Emergency</option>
+        <option>Lost / Separated</option>
+        <option>Theft or Crime</option>
+        <option>Fire / Hazard</option>
+        <option>Other</option>
+      </select>
+      <button class="alert-btn" onclick="sendEmAlert()">🚨 SEND EMERGENCY ALERT</button>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="sec-feedback" class="section">
+  <div class="section-title">💬 <span data-key="sec_feedback">Feedback</span></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-text">Your feedback helps us serve pilgrims better. All responses are sent to the Pilgrim Pro team via email.</div>
+  </div>
+  <div class="feedback-form" id="feedback-form">
+    <label class="form-label">Your Full Name *</label>
+    <input type="text" id="fb-name" placeholder="e.g. Ramesh Kulkarni">
+    <span class="err" id="err-name">Please enter your full name.</span>
+    <label class="form-label">Email Address *</label>
+    <input type="email" id="fb-email" placeholder="e.g. ramesh@gmail.com">
+    <span class="err" id="err-email">Please enter a valid email address.</span>
+    <label class="form-label">Your Query / Category *</label>
+    <select id="fb-type">
+      <option value="">Select category...</option>
+      <option>General Comment</option>
+      <option>Complaint</option>
+      <option>Suggestion</option>
+      <option>Appreciation</option>
+      <option>Question about Temple</option>
+      <option>Question about App</option>
+    </select>
+    <span class="err" id="err-type">Please select a category.</span>
+    <label class="form-label">Your Message *</label>
+    <textarea id="fb-msg" rows="4" placeholder="Write your feedback, comment, question, or suggestion here..."></textarea>
+    <span class="err" id="err-msg">Please write your message (minimum 10 characters).</span>
+    <label class="form-label">Rate Your Experience *</label>
+    <div class="star-rating" id="star-rating">
+      <span class="star-r" onclick="setRating(1)">★</span>
+      <span class="star-r" onclick="setRating(2)">★</span>
+      <span class="star-r" onclick="setRating(3)">★</span>
+      <span class="star-r" onclick="setRating(4)">★</span>
+      <span class="star-r" onclick="setRating(5)">★</span>
+    </div>
+    <span class="err" id="err-rating">Please give a star rating.</span>
+    <button class="submit-btn" onclick="submitFeedback()">📧 Submit Feedback via Email</button>
+    <div class="success-msg" id="fb-success">🎉 Thank you, your feedback has been submitted! We'll respond within 24 hours.</div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div id="sec-team" class="section">
+  <div class="section-title">👨‍👩‍👧‍👦 <span data-key="sec_team">Meet Our Team</span></div>
+  <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px">The passionate students who built Pilgrim Pro to serve the Alandi pilgrim community</div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(200,135,42,0.12)">👩‍⚕️</div>
+      <div class="team-name">Meet Sancheti</div>
+      <div class="team-role">Content & Research</div>
+      <div class="team-desc">Researched and verified all hotel, food, timing and route information on the ground in Alandi.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(138,74,138,0.12)">👩‍🎨</div>
+      <div class="team-name">Mohini Zode</div>
+      <div class="team-role">UI / UX Designer</div>
+      <div class="team-desc">Crafted the visual identity and user experience. Made Pilgrim Pro beautiful and easy to use for all ages.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(58,170,106,0.12)">👨‍💻</div>
+      <div class="team-name">Kanak Padgilwar</div>
+      <div class="team-role">Lead Developer</div>
+      <div class="team-desc">Architected the site structure and navigation system. Ensures every pilgrim finds their way smoothly.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="background:rgba(58,136,204,0.12)">👨‍💼</div>
+      <div class="team-name">Vivek Damale</div>
+      <div class="team-role">Project Manager</div>
+      <div class="team-desc">Coordinated the team, gathered pilgrim feedback, and ensured Pilgrim Pro launches with maximum impact.</div>
+    </div>
+  </div>
+  <div class="team-footer">
+    <div style="font-size:28px;margin-bottom:8px">☸️</div>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.7">Built with devotion for the pilgrims of Alandi</p>
+    <p style="font-size:13px;color:var(--text-muted)"><span style="color:var(--saffron-dark);font-weight:600">Pilgrim Pro</span> — A student project dedicated to Sant Dnyaneshwar Maharaj</p>
+    <p style="font-family:'Noto Sans Devanagari',sans-serif;font-size:15px;color:var(--text-muted);margin-top:8px">ज्ञानोबा-माऊली · तुकाराम 🙏</p>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ── LANGUAGE ──
+  const LANG = {
+    en: {
+      hero_tagline: "Your Sacred Companion for Alandi Pilgrimage · ज्ञानोबा-माऊली 🙏",
+      nav_map:"Map", nav_crowd:"Crowd", nav_routes:"Routes", nav_timing:"Timing",
+      nav_stay:"Stay", nav_food:"Food", nav_check:"Checklist", nav_guide:"AI Guide",
+      nav_lf:"Lost & Found", nav_help:"Help", nav_em:"Emergency", nav_fb:"Feedback", nav_team:"Team",
+      sec_map:"Live Navigation Map", sec_crowd:"Live Crowd Monitor", sec_routes:"Pilgrimage Routes",
+      sec_timing:"Best Visit Timings", sec_stay:"Accommodation", sec_food:"Food Availability",
+      sec_checklist:"Pilgrimage Checklist", sec_guide:"AI Pilgrimage Guide",
+      sec_lf:"Lost & Found", sec_help:"Help Center", sec_emergency:"Emergency Center",
+      sec_feedback:"Feedback", sec_team:"Meet Our Team"
+    },
+    mr: {
+      hero_tagline: "अलंदी यात्रेसाठी तुमचा पवित्र साथीदार 🙏",
+      nav_map:"नकाशा", nav_crowd:"गर्दी", nav_routes:"मार्ग", nav_timing:"वेळ",
+      nav_stay:"निवास", nav_food:"अन्न", nav_check:"यादी", nav_guide:"AI मार्गदर्शक",
+      nav_lf:"हरवले-सापडले", nav_help:"मदत", nav_em:"आपत्कालीन", nav_fb:"अभिप्राय", nav_team:"आमची टीम",
+      sec_map:"थेट नेव्हिगेशन नकाशा", sec_crowd:"थेट गर्दी निरीक्षण", sec_routes:"यात्रा मार्ग",
+      sec_timing:"सर्वोत्तम भेट वेळा", sec_stay:"निवास व्यवस्था", sec_food:"अन्न उपलब्धता",
+      sec_checklist:"यात्रा यादी", sec_guide:"AI यात्रा मार्गदर्शक",
+      sec_lf:"हरवले व सापडले", sec_help:"मदत केंद्र", sec_emergency:"आपत्कालीन केंद्र",
+      sec_feedback:"अभिप्राय", sec_team:"आमची टीम"
+    },
+    hi: {
+      hero_tagline: "आलंदी तीर्थयात्रा का आपका पवित्र साथी 🙏",
+      nav_map:"नक्शा", nav_crowd:"भीड़", nav_routes:"मार्ग", nav_timing:"समय",
+      nav_stay:"आवास", nav_food:"भोजन", nav_check:"सूची", nav_guide:"AI गाइड",
+      nav_lf:"खोया-पाया", nav_help:"सहायता", nav_em:"आपातकाल", nav_fb:"प्रतिक्रिया", nav_team:"हमारी टीम",
+      sec_map:"लाइव नेविगेशन मानचित्र", sec_crowd:"लाइव भीड़ निगरानी", sec_routes:"तीर्थयात्रा मार्ग",
+      sec_timing:"सर्वोत्तम भ्रमण समय", sec_stay:"आवास", sec_food:"भोजन उपलब्धता",
+      sec_checklist:"तीर्थयात्रा सूची", sec_guide:"AI तीर्थयात्रा गाइड",
+      sec_lf:"खोया और पाया", sec_help:"सहायता केंद्र", sec_emergency:"आपातकालीन केंद्र",
+      sec_feedback:"प्रतिक्रिया", sec_team:"हमारी टीम"
+    }
+  };
+
+  function setLang(lang) {
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('onclick').includes("'"+lang+"'"));
+    });
+    const L = LANG[lang];
+    document.getElementById('hero-tagline').textContent = L.hero_tagline;
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (L[key]) el.textContent = L[key];
+    });
+  }
+
+  // ── LIVE CROWD with realistic drift ──
+  let crowds = [62, 85, 28];
+  function updateCrowds() {
+    const labels = ['crowd-pct-1','crowd-pct-2','crowd-pct-3'];
+    const needles = ['crowd-needle-1','crowd-needle-2','crowd-needle-3'];
+    const descs = ['crowd-lbl-1','crowd-lbl-2','crowd-lbl-3'];
+    const approx = [1200, 2100, 400];
+    crowds = crowds.map((v, i) => {
+      let nv = v + (Math.random() * 6 - 3);
+      nv = Math.max(10, Math.min(98, nv));
+      return Math.round(nv);
+    });
+    crowds.forEach((v, i) => {
+      const pctEl = document.getElementById(labels[i]);
+      const ndlEl = document.getElementById(needles[i]);
+      const dscEl = document.getElementById(descs[i]);
+      if (!pctEl) return;
+      const level = v > 75 ? 'Heavy' : v > 50 ? 'Moderate' : 'Light';
+      const color = v > 75 ? '#CC4433' : v > 50 ? '#C8872A' : '#2A8A50';
+      const wait = v > 75 ? ' · Expect ' + Math.round((v-60)/2) + ' min wait' : v > 50 ? ' · Moderate wait' : ' · Good time to visit';
+      pctEl.textContent = v + '%';
+      pctEl.style.color = color;
+      if (ndlEl) ndlEl.style.left = v + '%';
+      if (dscEl) dscEl.textContent = level + ' crowd · ~' + Math.round(approx[i] * v/100 * (0.9 + Math.random()*0.2)) + ' pilgrims' + wait;
+    });
+  }
+
+  // ── TAB NAVIGATION ──
+  function showTab(name, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── MAP JUMP ──
+  const mapSrcs = {
+    temple:   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.3!2d73.8983!3d18.6754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9b9b9b9b9b9%3A0x0!2sSant%20Dnyaneshwar%20Samadhi%20Mandir%2C%20Alandi!5e0!3m2!1sen!2sin",
+    ghat:     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.3!2d73.8975!3d18.6750!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9c4c4c4c4c4%3A0x0!2sIndrayani%20Ghat%2C%20Alandi!5e0!3m2!1sen!2sin",
+    busstand: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.3!2d73.8990!3d18.6730!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9a9a9a9a9a9%3A0x0!2sAlandi%20Bus%20Stand!5e0!3m2!1sen!2sin",
+    parking:  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.3!2d73.8965!3d18.6760!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9d4d4d4d4d4%3A0x0!2sAlandi%20Parking!5e0!3m2!1sen!2sin",
+    hospital: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3780.3!2d73.8980!3d18.6740!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9e4e4e4e4e4%3A0x0!2sRural%20Hospital%20Alandi!5e0!3m2!1sen!2sin"
+  };
+  function jumpTo(place) {
+    const frame = document.getElementById('gmap-frame');
+    if (frame && mapSrcs[place]) frame.src = mapSrcs[place] + "!4v1699000000000!5m2!1sen!2sin";
+    document.querySelectorAll('.map-btn').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+
+  // ── ROUTE TOGGLE ──
+  function toggleRoute(card) {
+    const steps = card.querySelector('.route-steps');
+    card.classList.toggle('selected');
+    steps.classList.toggle('open');
+  }
+
+  // ── ACCESSIBILITY ROUTE TOGGLE ──
+  function toggleAccessibility() {
+    const details = document.getElementById('accessibility-details');
+    const btn = document.getElementById('accessibility-btn');
+    if (details.style.display === 'none') {
+      details.style.display = 'block';
+      btn.textContent = '▲ Hide Accessibility Guide';
+      btn.style.borderColor = 'var(--saffron)';
+      btn.style.color = 'var(--saffron)';
+      toast('♿ Accessibility guide opened!');
+    } else {
+      details.style.display = 'none';
+      btn.textContent = '♿ View Full Accessibility Guide';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }
+  }
+
+  // ── CHECKLIST ──
+  const totalItems = 8;
+  let checkedItems = 0;
+  function toggleCheck(item) {
+    if (item.classList.contains('dont-item')) return;
+    const wasChecked = item.classList.contains('checked');
+    item.classList.toggle('checked');
+    checkedItems += wasChecked ? -1 : 1;
+    const pct = Math.round((checkedItems / totalItems) * 100);
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = checkedItems + ' / ' + totalItems + ' checked';
+    const box = item.querySelector('.check-box');
+    if (box && !item.classList.contains('dont-item')) {
+      box.textContent = item.classList.contains('checked') ? '✓' : '';
+    }
+  }
+
+  // ── AI GUIDE ──
+  const aiResponses = {
+    'darshan': "🕐 Today's Darshan Timings:\n• Kaakad Aarti: 4:30 AM\n• Morning Darshan: 5:00 AM – 12:00 PM\n• Madhyan Aarti: 12:00 PM (Temple closed 1 hr)\n• Afternoon Darshan: 1:00 PM – 8:00 PM\n• Shej Aarti: 8:00 PM\n• Night Darshan closes: 10:30 PM\nBest time: 5:30–7 AM (least crowd) 🙏",
+    'dnyaneshwar': "🙏 Sant Dnyaneshwar Maharaj (1275–1296 CE) was a great Marathi saint-poet. He authored the Dnyaneshwari at just 16 years of age and attained samadhi at Alandi at age 21. His teachings of Bhakti and Advaita Vedanta inspire millions to this day. 🛕",
+    'alandi': "🛕 Alandi is a holy town 24 km north of Pune, home to the Samadhi of Sant Dnyaneshwar. The Indrayani River flowing here is sacred. Lakhs of Warkari pilgrims visit every year, especially on Ashadhi and Kartiki Ekadashi.",
+    'lost': "🚨 If separated from your group:\n1. Stay calm — do not panic\n2. Go to nearest Help Desk (Gate 1, always staffed)\n3. Call emergency: 112 (Police)\n4. Ask any policeman in uniform\n5. Use the Lost & Found section of this app\n6. Agree on a meeting point BEFORE entering crowded areas 📍",
+    'prasad': "🌸 Prasad offerings:\n• Tulsi (Holy basil) — Most sacred\n• Marigold flowers (Zendu)\n• Coconut (Nariyal)\n• Sugar prasad / Pedha from certified shops\nPrasad packages available near Gate 1 & 2 (₹20–₹100). 🙏",
+    'route': "🚶 Main route: Bus Stand → Indrayani Bridge → Ghat → Main Temple Gate → Dnyaneshwar Temple → Samadhi Mandir. ~3.2 km, 45 min. Check the Routes tab for more details!",
+    'food': "🍛 All food is 100% vegetarian. Free Prasad Bhojan at temple (till 2 PM). Pithla-Bhakri stalls near Ghat (₹30–60). Tea & snacks 24 hr at all gates.",
+    'stay': "🏨 Options: Free Dharamshala (Temple Trust), Indrayani Guest House (₹450/night), Pilgrim Seva Niwas (₹120/bed dorm). Check the Stay tab for full details!",
+    'timing': "⏰ Best times: 5:30–7 AM (least crowd, Kaakad Aarti) and 7–9 PM (Shej Aarti, peaceful atmosphere). Avoid 11 AM–2 PM (peak crowd + heat).",
+    'accessibility': "♿ Accessibility Route Guide:\n\n1. Arrive at Gate 1 (accessible parking within 50m)\n2. Report at Help Desk — request free wheelchair & volunteer escort\n3. Use ramp entry on left side of Gate 1 (flat, no stairs)\n4. Priority darshan via accessible corridor (no queue)\n5. Rest area with shaded benches near exit\n6. Accessible toilet near Gate 1\n\n📞 Advance booking: Call 1800-22-3011 (toll-free)\n\nFacilities: Free wheelchairs, ramp access, priority darshan, volunteer escort, rest benches every 100m, low-height water fountains. 🙏",
+    'wheelchair': "♿ Accessibility Route Guide:\n\n1. Arrive at Gate 1 (accessible parking within 50m)\n2. Report at Help Desk — request free wheelchair & volunteer escort\n3. Use ramp entry on left side of Gate 1 (flat, no stairs)\n4. Priority darshan via accessible corridor (no queue)\n5. Rest area with shaded benches near exit\n6. Accessible toilet near Gate 1\n\n📞 Advance booking: Call 1800-22-3011 (toll-free) 🙏",
+  };
+
+  function sendChat(prefill) {
+    const input = document.getElementById('chat-input');
+    if (prefill) input.value = prefill;
+    const msg = input.value.trim();
+    if (!msg) return;
+    const box = document.getElementById('chat-box');
+
+    const userEl = document.createElement('div');
+    userEl.className = 'chat-msg user';
+    userEl.textContent = msg;
+    box.appendChild(userEl);
+    input.value = '';
+
+    const typingEl = document.createElement('div');
+    typingEl.className = 'chat-msg bot typing';
+    typingEl.textContent = '🤖 Thinking...';
+    box.appendChild(typingEl);
+    box.scrollTop = box.scrollHeight;
+
+    setTimeout(() => {
+      typingEl.remove();
+      const botEl = document.createElement('div');
+      botEl.className = 'chat-msg bot';
+      const lm = msg.toLowerCase();
+      let reply = "🙏 Thank you for your question! For detailed information, check the relevant tab or visit our guides at Gate 1. You can ask me about: darshan timings, routes, food, accommodation, prasad, accessibility, or Sant Dnyaneshwar! 🙏";
+      for (const [key, val] of Object.entries(aiResponses)) {
+        if (lm.includes(key)) { reply = val; break; }
+      }
+      botEl.style.whiteSpace = 'pre-line';
+      botEl.textContent = reply;
+      box.appendChild(botEl);
+      box.scrollTop = box.scrollHeight;
+    }, 1200);
+  }
+
+  // ── LOST & FOUND ──
+  function showLF(view, btn) {
+    document.getElementById('lf-board').style.display = view === 'board' ? '' : 'none';
+    document.getElementById('lf-report').style.display = view === 'report' ? '' : 'none';
+    document.querySelectorAll('#sec-lf .map-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function submitLF() {
+    const typeVal = document.getElementById('lf-type-sel').value;
+    const descVal = document.getElementById('lf-desc-inp').value.trim();
+    const locVal  = document.getElementById('lf-loc-inp').value.trim();
+    const phoneVal= document.getElementById('lf-phone-inp').value.trim();
+    const extraVal= document.getElementById('lf-extra-inp').value.trim();
+    const errEl   = document.getElementById('lf-err');
+
+    if (!descVal || !locVal || !phoneVal) {
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    const isFound = typeVal.toLowerCase().startsWith('found');
+    const typeCls = isFound ? 'found' : 'lost';
+    const typeLabel = typeVal.toUpperCase();
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    const timeLabel = 'Today, ' + timeStr;
+
+    let fullDesc = 'Location: ' + locVal + '. Contact: ' + phoneVal;
+    if (extraVal) fullDesc += '. ' + extraVal;
+
+    const card = document.createElement('div');
+    card.className = 'lf-card';
+    card.innerHTML = `
+      <div class="lf-header">
+        <span class="lf-type ${typeCls}">${typeLabel}</span>
+        <span class="lf-time">${timeLabel}</span>
+      </div>
+      <div class="lf-item">${descVal}</div>
+      <div class="lf-desc">${fullDesc}</div>
+    `;
+
+    const board = document.getElementById('lf-board');
+    board.insertBefore(card, board.firstChild);
+
+    document.getElementById('lf-desc-inp').value = '';
+    document.getElementById('lf-loc-inp').value = '';
+    document.getElementById('lf-phone-inp').value = '';
+    document.getElementById('lf-extra-inp').value = '';
+
+    toast('✅ Posted to Notice Board!');
+    showLF('board', document.getElementById('lf-tab-board'));
+  }
+
+  // ── FAQ ──
+  function toggleFAQ(item) { item.classList.toggle('open'); }
+
+  // ── RATING ──
+  let rating = 0;
+  function setRating(r) {
+    rating = r;
+    document.querySelectorAll('.star-r').forEach((s, i) => {
+      s.classList.toggle('lit', i < r);
+    });
+  }
+
+  // ── FEEDBACK → sends to abhabedi010@gmail.com ──
+  function submitFeedback() {
+    const name  = document.getElementById('fb-name').value.trim();
+    const email = document.getElementById('fb-email').value.trim();
+    const type  = document.getElementById('fb-type').value;
+    const msg   = document.getElementById('fb-msg').value.trim();
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    document.getElementById('err-name').classList.toggle('show', !name);
+    document.getElementById('err-email').classList.toggle('show', !emailRe.test(email));
+    document.getElementById('err-type').classList.toggle('show', !type);
+    document.getElementById('err-msg').classList.toggle('show', msg.length < 10);
+    document.getElementById('err-rating').classList.toggle('show', rating === 0);
+    if (!name || !emailRe.test(email) || !type || msg.length < 10 || rating === 0) return;
+    const subject = encodeURIComponent('Pilgrim Pro Feedback: ' + type);
+    const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nCategory: ' + type + '\nRating: ' + rating + '/5\n\nMessage:\n' + msg + '\n\n-- Sent via Pilgrim Pro App');
+    window.location.href = 'mailto:abhabedi010@gmail.com?subject=' + subject + '&body=' + body;
+    document.getElementById('fb-success').style.display = 'block';
+    setTimeout(() => { document.getElementById('fb-success').style.display = 'none'; }, 5000);
+  }
+
+  // ── EMERGENCY ALERT → also sends to abhabedi010@gmail.com ──
+  function sendEmAlert() {
+    const name  = document.getElementById('em-name').value.trim();
+    const phone = document.getElementById('em-phone').value.trim();
+    const type  = document.getElementById('em-type').value;
+    if (!name || !phone) { toast('Please enter name and phone number'); return; }
+    const subject = encodeURIComponent('🚨 EMERGENCY ALERT from Pilgrim Pro – Alandi');
+    const body    = encodeURIComponent('🚨 EMERGENCY ALERT\n\nName: ' + name + '\nPhone: ' + phone + '\nType: ' + type + '\nLocation: Alandi Temple Area, Pune District, Maharashtra\nTime: ' + new Date().toLocaleString() + '\n\nPlease respond immediately!');
+    window.location.href = 'mailto:abhabedi010@gmail.com?subject=' + subject + '&body=' + body;
+    toast('🚨 Emergency alert sent! Also call 112 immediately.');
+  }
+
+  // ── TOAST ──
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── DIRECTIONS BUTTON UPDATE ──
+  document.getElementById('dir-from').addEventListener('input', function() {
+    const from = this.value.trim() || 'Pune';
+    document.getElementById('dir-btn').href =
+      'https://maps.google.com/?saddr=' + encodeURIComponent(from) +
+      '&daddr=Sant+Dnyaneshwar+Samadhi+Mandir+Alandi';
+  });
+
+  // ── INIT ──
+  updateCrowds();
+  setInterval(updateCrowds, 8000);
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
+
+</body>
+</html>

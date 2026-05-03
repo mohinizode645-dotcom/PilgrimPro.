@@ -1,0 +1,13 @@
+{
+  "background_color": "#dca364",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "PilgrimPro",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "PilgrimPro",
+  "start_url": "/",
+  "theme_color": "#e0a867",
+  "id": "Pilgrim",
+  "description": "{\n  \"name\": \"Pilgrim Pro – Alandi Companion\",\n  \"short_name\": \"Pilgrim Pro\",\n  \"start_url\": \"/index.html\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#5C2A2A\",\n  \"theme_color\": \"#5C2A2A\",\n  \"orientation\": \"portrait\",\n  \"icons\": [\n    {\n      \"src\": \"icons/icon-192.png\",\n      \"sizes\": \"192x192\",\n      \"type\": \"image/png\",\n      \"purpose\": \"any maskable\"\n    },\n    {\n      \"src\": \"icons/icon-512.png\",\n      \"sizes\": \"512x512\",\n      \"type\": \"image/png\",\n      \"purpose\": \"any maskable\"\n    }\n  ]\n}"
+}
